@@ -1,20 +1,23 @@
+// => /behavior_packs/pack_name/entities/entity.json
 let entityBehavior = {
-    "format_version": "1.16.100",
-    "minecraft:entity": {
-        "description": {
-            "identifier": "myname:init",
-            "is_spawnable": true,
-            "is_summonable": true
+    format_version: "1.16.100",
+    minecraft_entity: {
+        description: {
+            identifier: "myname:init",
+            is_spawnable: true,
+            is_summonable: true
         },
-        "components": {}
+        components: {}
     }
 }
 
+// => /resource_packs/pack_name/entity/entity.json
 let entityResource = {
-	"format_version": "1.10.0",
-	"minecraft:client_entity": {
-		"description": {
-			"identifier": "myname:init",
+	format_version: "1.10.0",
+	// minecraft_client_entity => minecraft:client_entity
+	minecraft_client_entity: {
+		description: {
+			identifier: "myname:init",
 			"materials": {
 				"default": "pillager"
 			},
@@ -61,6 +64,7 @@ let entityResource = {
 	}
 }
 
+// => /behavior_packs/pack_name/trading/economy_trades/entity_table.json
 let tradeTable = {
     "tiers": [
         {
@@ -89,13 +93,21 @@ let tradeTable = {
     ]
 }
 
-let entityModel = {}
-
-let entityTexture = {}
-
 const getJSON = (e) => {
     e.preventDefault()
-    console.log('getJSON')
+
+	let entityName = document.getElementById('entity-name').value
+	entityBehavior.minecraft_entity.description.identifier = "myname:" + entityName.toLowerCase()
+	entityResource.minecraft_client_entity.description.identifier = "myname:" + entityName.toLowerCase()
+
+	entityBehavior['minecraft:entity'] = entityBehavior['minecraft_entity']
+	delete entityBehavior['minecraft_entity']
+
+	entityResource['minecraft:client_entity'] = entityResource['minecraft_client_entity']
+	delete entityResource['minecraft_client_entity']
+
+	document.getElementById('entity-behavior-output').value = JSON.stringify(entityBehavior, '/t', 2)
+	document.getElementById('entity-resource-output').value = JSON.stringify(entityResource, '/t', 2)
 }
 
 const addItem = (e) => {
