@@ -11,25 +11,29 @@ let entityBehavior = {
     }
 }
 
+let isSpawnable = document.getElementById('spawn-egg')
+let isSummonable = document.getElementById('spawn-summon')
+
+console.log(isSpawnable, isSummonable, '================================')
+
 // => /resource_packs/pack_name/entity/entity.json
 let entityResource = {
 	format_version: "1.10.0",
-	// minecraft_client_entity => minecraft:client_entity
 	minecraft_client_entity: {
 		description: {
 			identifier: "myname:init",
 			"materials": {
 				"default": "pillager"
 			},
-			"textures": {
-				"default": "textures/entity/init"
+			textures: {
+				default: "textures/entity/init"
 			},
-			"geometry": {
-				"default": "geometry.init"
+			geometry: {
+				default: "geometry.init"
 			},
 			"spawn_egg": {
-				"base_color": "#1d1512",
-				"overlay_color": "#8979c0"
+				"base_color": "#000",
+				"overlay_color": "#fd0"
 			},
 			"scripts": {
 				"pre_animation": ["variable.tcos0 = (Math.cos(query.modified_distance_moved * 38.17) * query.modified_move_speed / variable.gliding_speed_value) * 57.3;"],
@@ -93,32 +97,57 @@ let tradeTable = {
     ]
 }
 
+const addItem = (e) => {
+    e.preventDefault()
+
+    console.log('addItem')
+}
+
 const getJSON = (e) => {
     e.preventDefault()
 
 	let entityName = document.getElementById('entity-name').value
-	entityBehavior.minecraft_entity.description.identifier = "myname:" + entityName.toLowerCase()
-	entityResource.minecraft_client_entity.description.identifier = "myname:" + entityName.toLowerCase()
+	entityBehavior.minecraft_entity.description.identifier = 'myname:' + entityName.toLowerCase()
+	entityResource.minecraft_client_entity.description.identifier = 'myname:' + entityName.toLowerCase()
+	entityResource.minecraft_client_entity.description.textures.default = 'textures/entity/' + entityName.toLowerCase()
+	entityResource.minecraft_client_entity.description.geometry.default = 'geometry.' + entityName.toLowerCase()
 
-	entityBehavior['minecraft:entity'] = entityBehavior['minecraft_entity']
-	delete entityBehavior['minecraft_entity']
+	if(isSpawnable.checked != '') {
+		entityBehavior.minecraft_entity.description.is_spawnable = true
+	} else {
+		entityBehavior.minecraft_entity.description.is_spawnable = false
+	}
 
-	entityResource['minecraft:client_entity'] = entityResource['minecraft_client_entity']
-	delete entityResource['minecraft_client_entity']
+	if(isSummonable.checked != '') {
+		entityBehavior.minecraft_entity.description.is_summonable = true
+	} else {
+		entityBehavior.minecraft_entity.description.is_summonable = false
+	}
 
 	document.getElementById('entity-behavior-output').value = JSON.stringify(entityBehavior, '/t', 2)
 	document.getElementById('entity-resource-output').value = JSON.stringify(entityResource, '/t', 2)
 }
 
-const addItem = (e) => {
-    e.preventDefault()
-    console.log('addItem')
+const exportPkg = (e) => {
+	entityBehavior['minecraft:entity'] = entityBehavior['minecraft_entity']
+	delete entityBehavior['minecraft_entity']
+	entityResource['minecraft:client_entity'] = entityResource['minecraft_client_entity']
+	delete entityResource['minecraft_client_entity']
 }
 
+// DYNAMIC TEXTAREAS
 document.getElementById('entity-behavior-output').value = JSON.stringify(entityBehavior, '/t', 2)
 document.getElementById('entity-resource-output').value = JSON.stringify(entityResource, '/t', 2)
 document.getElementById('table-output').value = JSON.stringify(tradeTable, '/t', 2)
 
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('add-item').addEventListener('click', addItem)
+})
+
+document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('get-json').addEventListener('click', getJSON)
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('export-pack').addEventListener('click', exportPkg)
 })
