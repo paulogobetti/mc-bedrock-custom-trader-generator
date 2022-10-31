@@ -33,28 +33,29 @@
 
                         <h3>SKIN & MODEL</h3><br>
                         <label for="upload-skin" class="upload-label">Upload skin...</label>
-                        <input id="upload-skin" type="file" name="upload-skin" style="display: none;">
+                        <input id="upload-skin" type="file" name="upload-skin" style="display: none;" accept=".png">
                         <label for="upload-model" class="upload-model">Upload model...</label>
-                        <input id="upload-model" type="file" name="upload-model" style="display: none;"><br><br>
+                        <input id="upload-model" type="file" name="upload-model" style="display: none;" accept=".geo.json"><br><br>
 
                         <h3>ADD ITEM</h3>
                         <h5>Item to Sell</h5>
-                        <select name="select">
-                            <option value="netherite-sword">Netherite Sword</option>
-                            <option value="diamond-sword" selected>Diamond Sword</option>
-                            <option value="iron-sword">Iron Sword</option>
+                        <select name="select" id="item-to-sell">
+                            <option value="minecraft:iron_sword" selected>Iron Sword</option>
+                            <option value="minecraft:diamond_sword">Diamond Sword</option>
+                            <option value="minecraft:netherite_sword">Netherite Sword</option>
                         </select>
-                        <input type="number" placeholder="Qty">
+                        <input type="number" id="qty-to-sell" placeholder="Qty">
 
                         <h5>Item for Trading</h5>
-                        <select name="select">
-                            <option value="gold-nugget" selected>Gold Nugget</option>
-                            <option value="diamond">Diamond</option>
-                            <option value="gold-ingot">Gold Ingot </option>
+                        <select name="select" id="item-for-trade">
+                            <option value="minecraft:gold_nugget" selected>Gold Nugget</option>
+                            <option value="minecraft:gold_ingot">Gold Ingot</option>
+                            <option value="minecraft:diamond">Diamond</option>
+                            <option value="minecraft:emerald">Emerald</option>
                         </select>
-                        <input type="number" placeholder="Qty">
+                        <input type="number" id="qty-for-trade" placeholder="Qty">
                         <h5>Limit of Items per User</h5>
-                        <input type="number" placeholder="Qty">
+                        <input type="number" id="qty-max-player" placeholder="Qty">
                         <br><br>
                         <button id="add-item">Add Item</button>
                     </div><br>

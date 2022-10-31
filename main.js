@@ -10,7 +10,6 @@ let entityBehavior = {
         components: {}
     }
 }
-// let checkbox = document.querySelectorAll('input[type="checkbox"]')
 
 // => /resource_packs/pack_name/entity/entity.json
 let entityResource = {
@@ -71,16 +70,16 @@ let tradeTable = {
         groups: [
             {
             num_to_select: 4,
-            "trades": [
+            trades: [
                 {
-                "max_uses": 5,
-                "wants": [
+                max_uses: 5,
+                wants: [
                     {
                     "item": "minecraft:emerald",
                     "quantity": 2
                     }
                 ],
-                "gives": [
+                gives: [
                     {
                     "item": "minecraft:sea_pickle"
                     }
@@ -93,14 +92,44 @@ let tradeTable = {
     ]
 }
 
+const listItems = ( ) => {
+
+}
+
 const addItem = (e) => {
     e.preventDefault()
 
-    console.log('addItem')
+	let qtyMaxPlayer = document.getElementById('qty-max-player').value
+	let itemToSell = document.getElementById('item-to-sell').value
+	let qtyToSell = document.getElementById('qty-to-sell').value
+	let itemForTrade = document.getElementById('item-for-trade').value
+	let qtyForTrade = document.getElementById('qty-for-trade').value
+
+	let item = {
+		max_uses: qtyMaxPlayer,
+		wants: [
+			{
+				item: itemToSell,
+				quantity: qtyToSell
+			}
+		],
+		gives: [
+			{
+				item: itemForTrade,
+				quantity: qtyForTrade
+			}
+		]
+	}
+
+	tradeTable.tiers[0].groups[0].trades.push(item)
+
+	document.getElementById('table-output').value = JSON.stringify(tradeTable, '/t', 2)
 }
 
 const getJSON = (e) => {
     e.preventDefault()
+
+	// validaCampo()
 
 	let entityName = document.getElementById('entity-name').value
 	entityBehavior.minecraft_entity.description.identifier = 'myname:' + entityName.toLowerCase()
@@ -108,23 +137,21 @@ const getJSON = (e) => {
 	entityResource.minecraft_client_entity.description.textures.default = 'textures/entity/' + entityName.toLowerCase()
 	entityResource.minecraft_client_entity.description.geometry.default = 'geometry.' + entityName.toLowerCase()
 
-	let isSpawnable = document.getElementById('spawn-egg')
-	let isSummonable = document.getElementById('spawn-summon')
+	let checkbox = document.querySelectorAll('input[type="checkbox"]')
+	checkbox.forEach(i => {
+		if(i.checked === true && i.id === "spawn-egg") {
+			entityBehavior.minecraft_entity.description.is_spawnable = true
+		} else if(i.checked === true && i.id === "spawn-summon") {
+			entityBehavior.minecraft_entity.description.is_summonable = true
+		} else if(i.id === "spawn-egg") {
+			entityBehavior.minecraft_entity.description.is_spawnable = false
+		} else {
+			entityBehavior.minecraft_entity.description.is_summonable = false
+		}
+	})
 
 	let displayedItems = parseInt(document.getElementById('displayed-items').value)
 	tradeTable.tiers[0].groups[0].num_to_select = displayedItems
-
-	if(isSpawnable.checked != '') {
-		entityBehavior.minecraft_entity.description.is_spawnable = true
-	} else {
-		entityBehavior.minecraft_entity.description.is_spawnable = false
-	}
-
-	if(isSummonable.checked != '') {
-		entityBehavior.minecraft_entity.description.is_summonable = true
-	} else {
-		entityBehavior.minecraft_entity.description.is_summonable = false
-	}
 
 	// Criar condicional com alerta que não será possível gerar a entidade no jogo caso os dois checkboxes estiverem desmarcados.
 	// Continua podendo ser spawnado pelo jogo caso as condições pré-estabelecidas sejam cumpridas (por default o NPC não deve spawnar em nenhum momento).
@@ -134,14 +161,15 @@ const getJSON = (e) => {
 	document.getElementById('table-output').value = JSON.stringify(tradeTable, '/t', 2)
 }
 
-const exportPkg = (e) => {
+const exportPkg = ( ) => {
 	entityBehavior['minecraft:entity'] = entityBehavior['minecraft_entity']
 	delete entityBehavior['minecraft_entity']
 	entityResource['minecraft:client_entity'] = entityResource['minecraft_client_entity']
 	delete entityResource['minecraft_client_entity']
 }
 
-// DYNAMIC TEXTAREAS
+// DYNAMIC CONTENT
+listItems()
 document.getElementById('entity-behavior-output').value = JSON.stringify(entityBehavior, '/t', 2)
 document.getElementById('entity-resource-output').value = JSON.stringify(entityResource, '/t', 2)
 document.getElementById('table-output').value = JSON.stringify(tradeTable, '/t', 2)
