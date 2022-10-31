@@ -10,11 +10,7 @@ let entityBehavior = {
         components: {}
     }
 }
-
-let isSpawnable = document.getElementById('spawn-egg')
-let isSummonable = document.getElementById('spawn-summon')
-
-console.log(isSpawnable, isSummonable, '================================')
+// let checkbox = document.querySelectorAll('input[type="checkbox"]')
 
 // => /resource_packs/pack_name/entity/entity.json
 let entityResource = {
@@ -70,11 +66,11 @@ let entityResource = {
 
 // => /behavior_packs/pack_name/trading/economy_trades/entity_table.json
 let tradeTable = {
-    "tiers": [
+    tiers: [
         {
-        "groups": [
+        groups: [
             {
-            "num_to_select": 4,
+            num_to_select: 4,
             "trades": [
                 {
                 "max_uses": 5,
@@ -112,6 +108,12 @@ const getJSON = (e) => {
 	entityResource.minecraft_client_entity.description.textures.default = 'textures/entity/' + entityName.toLowerCase()
 	entityResource.minecraft_client_entity.description.geometry.default = 'geometry.' + entityName.toLowerCase()
 
+	let isSpawnable = document.getElementById('spawn-egg')
+	let isSummonable = document.getElementById('spawn-summon')
+
+	let displayedItems = parseInt(document.getElementById('displayed-items').value)
+	tradeTable.tiers[0].groups[0].num_to_select = displayedItems
+
 	if(isSpawnable.checked != '') {
 		entityBehavior.minecraft_entity.description.is_spawnable = true
 	} else {
@@ -124,8 +126,12 @@ const getJSON = (e) => {
 		entityBehavior.minecraft_entity.description.is_summonable = false
 	}
 
+	// Criar condicional com alerta que não será possível gerar a entidade no jogo caso os dois checkboxes estiverem desmarcados.
+	// Continua podendo ser spawnado pelo jogo caso as condições pré-estabelecidas sejam cumpridas (por default o NPC não deve spawnar em nenhum momento).
+
 	document.getElementById('entity-behavior-output').value = JSON.stringify(entityBehavior, '/t', 2)
 	document.getElementById('entity-resource-output').value = JSON.stringify(entityResource, '/t', 2)
+	document.getElementById('table-output').value = JSON.stringify(tradeTable, '/t', 2)
 }
 
 const exportPkg = (e) => {
