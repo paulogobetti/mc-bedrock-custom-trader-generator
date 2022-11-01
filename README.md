@@ -48,5 +48,8 @@ Features:
 
 ============================================
 
-<h4>SCREENSHOT</h4>
+<h4>SCREENSHOTS</h4>
+
 ![alt text](https://nxsagencia.com/files/magic-trader-screenshot.png)
+
+![alt text](https://nxsagencia.com/files/magic-trader-screenshot-npc.png)
