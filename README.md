@@ -45,3 +45,8 @@ Features:
 [X] Populate items table dynamically
 [X] Exporting the flat files in **.json, .png** and **.geo.json**
 [ ] Exporting **.zip** and **.mcaddon** files
+
+============================================
+
+<h4>SCREENSHOT</h4>
+![alt text](https://nxsagencia.com/files/magic-trader-screenshot.png)
