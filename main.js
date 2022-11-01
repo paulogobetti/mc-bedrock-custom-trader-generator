@@ -81,7 +81,7 @@ let tradeTable = {
                 ],
                 gives: [
                     {
-                    "item": "minecraft:sea_pickle"
+                    item: "minecraft:sea_pickle"
                     }
                 ]
                 }
@@ -92,11 +92,12 @@ let tradeTable = {
     ]
 }
 
+let trades = tradeTable.tiers[0].groups[0].trades
+
 const listItems = ( ) => {
 	let tbody = document.getElementById('tbody')
 	tbody.innerText = ''
 
-	let trades = tradeTable.tiers[0].groups[0].trades
 	trades.forEach(i => {
 		let line = document.createElement('tr')
 		let numberCol = document.createElement('td')
@@ -108,6 +109,7 @@ const listItems = ( ) => {
 		let removeButton = document.createElement('input')
 		removeButton.type = 'button'
 		removeButton.value = 'Remove'
+		removeButton.setAttribute('onclick', 'removeItem(' + trades.indexOf(i) + ')')
 		removeButton.classList.add('button')
 
 		numberCol.innerHTML = trades.indexOf(i)
@@ -128,11 +130,11 @@ const listItems = ( ) => {
 const addItem = (e) => {
     e.preventDefault()
 
-	let qtyMaxPlayer = document.getElementById('qty-max-player').value
+	let qtyMaxPlayer = parseInt(document.getElementById('qty-max-player').value)
 	let itemToSell = document.getElementById('item-to-sell').value
-	let qtyToSell = document.getElementById('qty-to-sell').value
+	let qtyToSell = parseInt(document.getElementById('qty-to-sell').value)
 	let itemForTrade = document.getElementById('item-for-trade').value
-	let qtyForTrade = document.getElementById('qty-for-trade').value
+	let qtyForTrade = parseInt(document.getElementById('qty-for-trade').value)
 
 	let item = {
 		max_uses: qtyMaxPlayer,
@@ -150,10 +152,17 @@ const addItem = (e) => {
 		]
 	}
 
-	tradeTable.tiers[0].groups[0].trades.push(item)
+	trades.push(item)
 
 	listItems()
+	document.getElementById('table-output').value = JSON.stringify(tradeTable, '/t', 2)
+}
 
+const removeItem = (i) => {
+
+	trades.splice(i, 1)
+
+	listItems()
 	document.getElementById('table-output').value = JSON.stringify(tradeTable, '/t', 2)
 }
 
@@ -201,10 +210,10 @@ const exportPkg = ( ) => {
 }
 
 // DYNAMIC CONTENT
-listItems()
-document.getElementById('entity-behavior-output').value = JSON.stringify(entityBehavior, '/t', 2)
-document.getElementById('entity-resource-output').value = JSON.stringify(entityResource, '/t', 2)
-document.getElementById('table-output').value = JSON.stringify(tradeTable, '/t', 2)
+	listItems()
+	document.getElementById('entity-behavior-output').value = JSON.stringify(entityBehavior, '/t', 2)
+	document.getElementById('entity-resource-output').value = JSON.stringify(entityResource, '/t', 2)
+	document.getElementById('table-output').value = JSON.stringify(tradeTable, '/t', 2)
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('add-item').addEventListener('click', addItem)
