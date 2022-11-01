@@ -75,8 +75,8 @@ let tradeTable = {
                 max_uses: 5,
                 wants: [
                     {
-                    "item": "minecraft:emerald",
-                    "quantity": 2
+                    item: "minecraft:emerald",
+                    quantity: 2
                     }
                 ],
                 gives: [
@@ -93,7 +93,36 @@ let tradeTable = {
 }
 
 const listItems = ( ) => {
+	let tbody = document.getElementById('tbody')
+	tbody.innerText = ''
 
+	let trades = tradeTable.tiers[0].groups[0].trades
+	trades.forEach(i => {
+		let line = document.createElement('tr')
+		let numberCol = document.createElement('td')
+		let itemCol = document.createElement('td')
+		let qtyCol = document.createElement('td')
+		let maxQtyCol = document.createElement('td')
+		let removeCol = document.createElement('td')
+
+		let removeButton = document.createElement('input')
+		removeButton.type = 'button'
+		removeButton.value = 'Remove'
+		removeButton.classList.add('button')
+
+		numberCol.innerHTML = trades.indexOf(i)
+		itemCol.innerHTML = i.wants[0].item
+		qtyCol.innerHTML = i.wants[0].quantity
+		maxQtyCol.innerHTML = i.max_uses
+
+		line.append(numberCol)
+		line.append(itemCol)
+		line.append(qtyCol)
+		line.append(maxQtyCol)
+		removeCol.append(removeButton)
+		line.append(removeCol)
+		tbody.append(line)
+	})
 }
 
 const addItem = (e) => {
@@ -123,13 +152,15 @@ const addItem = (e) => {
 
 	tradeTable.tiers[0].groups[0].trades.push(item)
 
+	listItems()
+
 	document.getElementById('table-output').value = JSON.stringify(tradeTable, '/t', 2)
 }
 
 const getJSON = (e) => {
     e.preventDefault()
 
-	// validaCampo()
+	// checkField()
 
 	let entityName = document.getElementById('entity-name').value
 	entityBehavior.minecraft_entity.description.identifier = 'myname:' + entityName.toLowerCase()
@@ -156,6 +187,7 @@ const getJSON = (e) => {
 	// Criar condicional com alerta que não será possível gerar a entidade no jogo caso os dois checkboxes estiverem desmarcados.
 	// Continua podendo ser spawnado pelo jogo caso as condições pré-estabelecidas sejam cumpridas (por default o NPC não deve spawnar em nenhum momento).
 
+	listItems()
 	document.getElementById('entity-behavior-output').value = JSON.stringify(entityBehavior, '/t', 2)
 	document.getElementById('entity-resource-output').value = JSON.stringify(entityResource, '/t', 2)
 	document.getElementById('table-output').value = JSON.stringify(tradeTable, '/t', 2)

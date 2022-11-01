@@ -12,7 +12,7 @@
 body {
     background: #313233;
 }
-button {
+button, .button, .upload-label, .upload-model {
     background: #3c8527;
     padding: 10px;
     border: 2px solid #131313;
@@ -76,11 +76,4 @@ th {
 td {
     background: #474848;
     color: #a3a3a3;
-}
-.upload-label, .upload-model {
-    background: #3c8527;
-    padding: 10px;
-    border: 2px solid #131313;
-    color: #fff;
-    cursor: pointer;
 }

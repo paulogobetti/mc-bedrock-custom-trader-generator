@@ -28,7 +28,7 @@
                     <div> <!-- STORE -->
                         <h3>STORE</h3>
                         <h5>Number of Items to be Displayed</h5>
-                        <input type="number" id="displayed-items" placeholder="Maximum amount that will be displayed"><br>
+                        <input type="number" id="displayed-items" placeholder="Max. amount that will be displayed"><br>
                         <p>Note: If the amount of items in the table exceeds the chosen amount, it will be shown randomly.</p><br><hr>
 
                         <h3>SKIN & MODEL</h3><br>
@@ -67,7 +67,7 @@
             </form>
         </div>
 
-        <div> <!-- FUTURE DYNAMIC TABLE -->
+        <div> <!-- DYNAMIC TABLE -->
             <table class="table">
                 <thead>
                   <tr>
@@ -75,10 +75,10 @@
                     <th scope="col">Item</th>
                     <th scope="col">Qty</th>
                     <th scope="col">Maximum Qty For Player</th>
-                    <th scope="col"></th>
+                    <th scope="col">Remove</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="tbody">
                   <tr>
                     <th scope="row">1</th>
                     <td>Diamond Sword</td>
