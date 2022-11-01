@@ -117,7 +117,7 @@ const getJSON = (e) => {
 	document.getElementById('table-output').value = JSON.stringify(tradeTable, '/t', 2)
 }
 
-const exportPkg = (e) => {
+const saveFiles = (e) => {
     e.preventDefault()
 
 	let entityName = document.getElementById('entity-name').value
@@ -125,23 +125,26 @@ const exportPkg = (e) => {
 	let files = [
 		{
 			// => /behavior_packs/pack_name/entities/entity.json
-			name: entityName.toLowerCase() + ".json",
+			name: entityName.toLowerCase() + '.json',
 			var: entityBehavior
 		},
 		{
 			// => /resource_packs/pack_name/entity/entity.json
-			name: entityName.toLowerCase() + ".json",
+			name: entityName.toLowerCase() + '.json',
 			var: entityResource
 		},
 		{
 			// => /behavior_packs/pack_name/trading/economy_trades/entity_table.json
-			name: entityName.toLowerCase() + "_table.json",
+			name: entityName.toLowerCase() + '_table.json',
 			var: tradeTable
 		},
 		{
 			// => /resource_packs/pack_name/models/entity/entity.geo.json
-			name: entityName.toLowerCase() + ".geo.json",
+			name: entityName.toLowerCase() + '.geo.json',
 			var: entityModel
+		},
+		{
+			name: '/img/default-skin.png'
 		}
 	]
 
@@ -153,10 +156,17 @@ const exportPkg = (e) => {
 	delete entityResource['minecraft_client_entity']
 
 	files.forEach(i => {
-		let link = document.createElement('a')
-		link.href = 'data:application/octet-stream;charset=utf-8,' + JSON.stringify(i.var)
-		link.download = i.name
-		link.click()
+		if(i.name === '/img/default-skin.png') {
+			let a = document.createElement('a')
+			a.href = i.name
+			a.download = "default-skin.png"
+			a.click()
+		} else {
+			let a = document.createElement('a')
+			a.href = 'data:application/octet-stream;charset=utf-8,' + JSON.stringify(i.var)
+			a.download = i.name
+			a.click()
+		}
 	})
 }
 
@@ -175,5 +185,5 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('export-pack').addEventListener('click', exportPkg)
+    document.getElementById('save-files').addEventListener('click', saveFiles)
 })
