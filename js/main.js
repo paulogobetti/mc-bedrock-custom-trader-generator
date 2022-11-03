@@ -90,8 +90,8 @@ const getJSON = (e) => {
 		entityBehavior.minecraft_entity.components.minecraft_trade_table.display_name = entityName
 		entityBehavior.minecraft_entity.components.minecraft_trade_table.table = 'trading/economy_trades/' + entityName.toLowerCase() + '_table.json'
 
-		entityModel['geometry.' + entityName.toLowerCase()] = entityModel['geometry.init']
-		delete entityModel['geometry.init']
+		// entityModel['geometry.' + entityName.toLowerCase()] = entityModel['geometry.init']
+		// delete entityModel['geometry.init']
 
 		checkbox.forEach(i => {
 			if(i.checked === true && i.id === "spawn-egg") {
@@ -170,6 +170,25 @@ const saveFiles = (e) => {
 	})
 }
 
+const uploadModel = ( ) => {
+	var file = document.getElementById('upload-model').files
+
+	if(file.length <= 0) {
+		return
+	} else {
+		entityName = document.getElementById('entity-name').value
+		var fileReader = new FileReader()
+		fileReader.onload = (e) => {
+			entityModel = JSON.parse(e.target.result)
+			entityModel['geometry.' + entityName.toLowerCase()] = entityModel['geometry.init']
+			delete entityModel['geometry.init']
+
+			console.log(entityModel)
+		}
+		fileReader.readAsText(file.item(0))
+	}
+}
+
 // DYNAMIC CONTENT
 listItems()
 document.getElementById('entity-behavior-output').value = JSON.stringify(entityBehavior, '/t', 2)
@@ -178,6 +197,10 @@ document.getElementById('table-output').value = JSON.stringify(tradeTable, '/t',
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('add-item').addEventListener('click', addItem)
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('upload-model').addEventListener('click', uploadModel)
 })
 
 document.addEventListener('DOMContentLoaded', () => {

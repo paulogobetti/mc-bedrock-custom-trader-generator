@@ -13,7 +13,7 @@
 <body>
     <div style="display: flex;"> <!-- CANVAS -->
         <div> <!-- FORM -->
-            <form action="" method="POST">
+            <form id="upload">
                 <fieldset>
                     <div> <!-- NPC -->
                         <h3>CREATE NEW TRADER NPC</h3>
@@ -33,9 +33,9 @@
 
                         <h3>SKIN & MODEL</h3><br>
                         <label for="upload-skin" class="upload-label">Upload skin...</label>
-                        <input id="upload-skin" type="file" name="upload-skin" style="display: none;" accept=".png">
+                        <input type="file" id="upload-skin" name="upload-skin" style="display: none;" accept=".png">
                         <label for="upload-model" class="upload-model">Upload model...</label>
-                        <input id="upload-model" type="file" name="upload-model" style="display: none;" accept=".geo.json"><br><br>
+                        <input type="file" id="upload-model" name="upload-model" style="display: none;" accept=".geo.json"><br><br><br>
 
                         <h3>ADD ITEM</h3>
                         <h5>Item to Sell</h5>
