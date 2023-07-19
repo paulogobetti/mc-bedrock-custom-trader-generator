@@ -50,6 +50,6 @@ Features:
 
 <h4>SCREENSHOTS</h4>
 
-![alt text](https://nxsagencia.com/files/magic-trader-screenshot.png)
+![alt text](https://paulogobetti.com/media/minecraft-magic-trader-screenshot-01.png)
 
-![alt text](https://nxsagencia.com/files/magic-trader-screenshot-npc.png)
+![alt text](https://paulogobetti.com/media/minecraft-magic-trader-screenshot-02.png)
