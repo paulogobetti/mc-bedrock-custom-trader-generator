@@ -160,7 +160,7 @@ const saveFiles = (e) => {
 			let a = document.createElement('a')
 			a.href = i.name
 			a.download = "default-skin.png"
-			a.click()
+			// a.click()
 		} else {
 			let a = document.createElement('a')
 			a.href = 'data:application/octet-stream;charset=utf-8,' + JSON.stringify(i.var)
@@ -208,5 +208,42 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('save-files').addEventListener('click', saveFiles)
+    document.getElementById('save-files').addEventListener('click', savePackage)
 })
+
+const base64ToImg = (base64Img, contentType) => {
+	const byteCharacters = atob(base64Img)
+	const byteArrays = []
+
+	for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+		const slice = byteCharacters.slice(offset, offset + 512)
+
+		const byteNumbers = new Array(slice.length)
+		for (let i = 0; i < slice.length; i++) {
+			byteNumbers[i] = slice.charCodeAt(i)
+		}
+
+		const byteArray = new Uint8Array(byteNumbers)
+		byteArrays.push(byteArray)
+	}
+
+	return new Blob(byteArrays, { type: contentType })
+}
+
+const contentType = 'image/png'
+
+const blob = base64ToImg(base64Img, contentType)
+
+function savePackage() {
+	var zip = new JSZip()
+	zip.file('behavior_packs/pack_name/entities/entity.json', 'Hello World\n')
+	zip.file('behavior_packs/pack_name/trading/economy_trades/entity_table.json', 'Hello World\n')
+	zip.file('resource_packs/pack_name/entity/entity.json', 'Hello World\n')
+	zip.file('resource_packs/pack_name/models/entity/entity.geo.json', 'Hello World\n')
+	var img = zip.folder("resource_packs/pack_name/textures/entity")
+	img.file('default-skin.png', blob, {base64: true})
+	zip.generateAsync({type:"blob"})
+	.then(function(content) {
+		saveAs(content, "example.zip")
+	})
+}
